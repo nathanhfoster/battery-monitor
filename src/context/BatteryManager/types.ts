@@ -1,9 +1,8 @@
 import { ReactNode } from "react";
 import { ContextBaseAction } from "../types";
-import { setBatteryManagerKey } from "./actions";
 
 
-export interface BatterManagerState {
+export interface BatteryManagerState {
     charging: boolean; // A Boolean value indicating whether the battery is currently being charged.
     chargingTime: number; // A number representing the remaining time in seconds until the battery is fully charged, or 0 if the battery is already fully charged.
     dischargingTime: number; // A number representing the remaining time in seconds until the battery is completely discharged and the system suspends.
@@ -19,4 +18,4 @@ export interface BatteryManagerProviderProps {
 }
 
 
-export type setBatteryManagerKeyAction = (key: keyof BatterManagerState, payload: BatterManagerState[typeof key]) => BatteryManagerAction
+export type setBatteryManagerKeyAction = (key: keyof BatteryManagerState, payload: BatteryManagerState[typeof key]) => BatteryManagerAction
