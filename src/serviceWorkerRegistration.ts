@@ -22,11 +22,9 @@ const isLocalhost = Boolean(
 
 
 export const register = (config?: ServicerWorkerConfig) => {
-  console.log({ env: NODE_ENV, sw: navigator.serviceWorker })
   if (NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
-    console.log({ isLocalhost, publicUrl, location: window.location })
     if (publicUrl.origin !== window.location.origin) {
       // Our service worker won't work if PUBLIC_URL is on a different origin
       // from what our page is served on. This might happen if a CDN is used to
@@ -40,8 +38,6 @@ export const register = (config?: ServicerWorkerConfig) => {
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
         checkValidServiceWorker(swUrl, config);
-
-        console.log({ config })
 
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
@@ -63,14 +59,12 @@ const registerValidSW = (swUrl: string, config?: ServicerWorkerConfig) => {
   navigator.serviceWorker
     .register(swUrl)
     .then((registration) => {
-      console.log({ registration })
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         if (installingWorker == null) {
           return;
         }
         installingWorker.onstatechange = () => {
-          console.log({ installingWorker, serviceWorker: navigator.serviceWorker })
           if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
               // At this point, the updated precached content has been fetched,
