@@ -1,7 +1,7 @@
 import { FC, createContext, useReducer, useContext, useEffect } from "react"
 import { setBatteryManagerKey } from "./actions"
 import { batteryManagerInitialState, batteryManagerReducer } from "./reducer"
-import { BatteryManagerProviderProps } from "./types"
+import { BatteryManagerProviderProps, BatteryManagerState } from "./types"
 
 
 export const BatteryManagerStateContext = createContext(batteryManagerInitialState)
@@ -19,14 +19,15 @@ export const BatteryManagerProvider: FC<BatteryManagerProviderProps> = ({ childr
         (async function getBatteryManager() {
             //@ts-ignore
             return await navigator?.getBattery?.().then(batteryManager => {
-                //@ts-ignore
-                const batterManagerAddEventListener = (event, key) => {
+                const batterManagerAddEventListener = (event: string, key: keyof BatteryManagerState) => {
                     dispatch(setBatteryManagerKey(key, batteryManager[key]))
                     //@ts-ignore
-                    batteryManager.addEventListener(event, (e: Event) => {
-                        const batteryManagerRef = e.target
-                        //@ts-ignore
-                        batteryManagerDispatch(setBatteryManagerKey(key, batteryManagerRef[key]))
+                    batteryManager.addEventListener(event, (e: any) => {
+
+                        const batteryManagerRef: BatteryManagerState = e.target
+                        const batteryManagerRefValue: BatteryManagerState[typeof key] = batteryManagerRef[key]
+
+                        dispatch(setBatteryManagerKey(key, batteryManagerRefValue))
                     });
                 }
 

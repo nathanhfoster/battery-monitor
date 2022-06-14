@@ -11,24 +11,26 @@ const MAX = 100
 // MIN = Minimum expected value
 // MAX = Maximium expected value
 // Function to normalize the values (MIN / MAX could be integrated)
-const normalize = (value: number) => ((value - MIN) * 100) / (MAX - MIN);
+const normalize = (value: number) => isFinite(value) ? ((value - MIN) * 100) / (MAX - MIN) : 0;
 
 interface BatteryLevelProps {
     value: number;
-    buffer: number;
+    buffer?: number;
     color: LinearProgressProps['color']
 }
 
 
 const BatteryLevel: FC<BatteryLevelProps> = ({ value, buffer, color }) => {
 
-    return <LinearProgress variant="buffer" value={value} valueBuffer={buffer} color={color} />
+    return <LinearProgress variant={buffer ? "buffer" : "determinate"} value={value} valueBuffer={buffer} color={color} />
 }
 
 const mapStateToProps: MapStateToPropsType<BatteryManagerState, BatteryLevelProps> = ({ charging, chargingTime, dischargingTime, level }) => {
     const value = level * 100
-    const buffer = normalize(charging ? chargingTime : dischargingTime)
+
+    const buffer = charging ? normalize(chargingTime) : undefined
     const color = value <= 30 ? 'error' : value <= 50 ? 'warning' : 'success'
+
     return { value, buffer, color }
 }
 

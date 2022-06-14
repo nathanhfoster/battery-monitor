@@ -5,8 +5,8 @@ import { BatteryManagerState, BatteryManagerAction } from "./types";
 
 export const batteryManagerInitialState: BatteryManagerState = {
     charging: false,
-    chargingTime: 0,
-    dischargingTime: 0,
+    chargingTime: Infinity,
+    dischargingTime: Infinity,
     level: 0,
 }
 
