@@ -45,9 +45,12 @@ const config: ServiceWorkerConfiguration = () => ({
   onUpdate: (registration: ServiceWorkerRegistration) => {
     const waitingServiceWorker = registration.waiting;
 
+    console.log('onUpdate', { waitingServiceWorker })
+
     if (waitingServiceWorker) {
       waitingServiceWorker.addEventListener('statechange', (event) => {
         const serviceWorker = event?.target as ServiceWorker;
+        console.log({ serviceWorker })
         if (serviceWorker.state === 'activated') {
 
           const handleReloadWindow = () => {
@@ -56,7 +59,6 @@ const config: ServiceWorkerConfiguration = () => ({
 
           handleReloadWindow();
           alert('Update Available! Please refresh your browser.');
-
         }
       });
       waitingServiceWorker.postMessage({ type: 'SKIP_WAITING' });
