@@ -1,8 +1,10 @@
-import { FC, createContext, useReducer, useContext, useEffect } from "react"
-import { setBatteryManagerKey } from "./actions"
+import { FC, createContext, useContext, useEffect } from "react"
+import useSetStateReducer from "../../hooks/useSetStateReducer"
+import { setBatteryManager, setBatteryManagerAnalytics } from "./actions"
 import { batteryManagerInitialState, batteryManagerReducer } from "./reducer"
-import { BatteryManagerProviderProps, BatteryManagerState } from "./types"
+import { BatteryManagerProviderProps, BatteryManager, BatteryManagerEvents, BatteryManagerState, } from "./types"
 
+const BatteryManagerEventsKeys: (keyof BatteryManagerEvents)[] = ['chargingchange', 'levelchange', 'chargingtimechange', 'dischargingtimechange',]
 
 export const BatteryManagerStateContext = createContext(batteryManagerInitialState)
 BatteryManagerStateContext.displayName = 'BatteryManagerStateContext'
@@ -13,28 +15,22 @@ BatteryManagerDispatchContext.displayName = 'BatteryManagerDispatchContext'
 export const useBatteryManagerDispatch = () => useContext(BatteryManagerDispatchContext)
 
 export const BatteryManagerProvider: FC<BatteryManagerProviderProps> = ({ children }) => {
-    const [state, dispatch] = useReducer(batteryManagerReducer, batteryManagerInitialState)
+    const [state, dispatch] = useSetStateReducer({ reducer: batteryManagerReducer, initializerArg: batteryManagerInitialState })
 
     useEffect(() => {
         (async function getBatteryManager() {
+            const setBatteryManagerAndAnalytics = (batteryManager: BatteryManager) => {
+                dispatch(setBatteryManager(batteryManager), () => dispatch(setBatteryManagerAnalytics()))
+            }
             //@ts-ignore
-            return await navigator?.getBattery?.().then(batteryManager => {
-                const batterManagerAddEventListener = (event: string, key: keyof BatteryManagerState) => {
-                    dispatch(setBatteryManagerKey(key, batteryManager[key]))
-                    //@ts-ignore
-                    batteryManager.addEventListener(event, (e: any) => {
-
-                        const batteryManagerRef: BatteryManagerState = e.target
-                        const batteryManagerRefValue: BatteryManagerState[typeof key] = batteryManagerRef[key]
-
-                        dispatch(setBatteryManagerKey(key, batteryManagerRefValue))
+            return await navigator?.getBattery?.().then((batteryManager: BatteryManager) => {
+                setBatteryManagerAndAnalytics(batteryManager)
+                BatteryManagerEventsKeys.forEach(batteryEvent => {
+                    batteryManager.addEventListener(batteryEvent, (e) => {
+                        setBatteryManagerAndAnalytics(e.target as BatteryManager)
                     });
-                }
+                })
 
-                batterManagerAddEventListener('chargingchange', 'charging')
-                batterManagerAddEventListener('levelchange', 'level')
-                batterManagerAddEventListener('chargingtimechange', 'chargingTime')
-                batterManagerAddEventListener('dischargingtimechange', 'dischargingTime')
             })
         })()
     }, [])
@@ -42,7 +38,7 @@ export const BatteryManagerProvider: FC<BatteryManagerProviderProps> = ({ childr
     return (
         //@ts-ignore
         <BatteryManagerDispatchContext.Provider value={dispatch}>
-            <BatteryManagerStateContext.Provider value={state}>
+            <BatteryManagerStateContext.Provider value={state as BatteryManagerState}>
                 {children}
             </BatteryManagerStateContext.Provider>
         </BatteryManagerDispatchContext.Provider>

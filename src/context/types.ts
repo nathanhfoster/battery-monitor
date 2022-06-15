@@ -2,7 +2,7 @@ import { Context, Dispatch, ReactElement, } from "react";
 
 export interface ContextBaseAction {
     type: string;
-    key: string;
+    key?: string;
     payload?: any
 }
 
