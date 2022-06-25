@@ -23,7 +23,7 @@ export interface BatteryManager extends BatteryManagerEvents {
 }
 
 export interface BatteryManagerEvent {
-    target: BatteryManager
+    target: BatteryManager;
 }
 
 export interface BatteryManagerAction extends ContextBaseAction {
@@ -31,7 +31,7 @@ export interface BatteryManagerAction extends ContextBaseAction {
 }
 
 export interface BatteryManagerProviderProps {
-    children: ReactNode
+    children: ReactNode;
 }
 
 export interface BatteryManagerAnalytics {
@@ -40,10 +40,10 @@ export interface BatteryManagerAnalytics {
 }
 
 export interface BatteryManagerState extends BatteryManager {
-    analytics: BatteryManagerAnalytics
+    analytics: BatteryManagerAnalytics;
 }
 
 
-export type setBatteryManagerKeyAction = (key: keyof BatteryManager, payload: BatteryManager[typeof key]) => BatteryManagerAction
+export type setBatteryManagerKeyAction = (key: keyof BatteryManager, payload: BatteryManager[typeof key]) => BatteryManagerAction;
 
-export type setBatteryManagerAction = (payload: BatteryManager) => BatteryManagerAction
+export type setBatteryManagerAction = (payload: BatteryManager) => BatteryManagerAction;

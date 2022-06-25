@@ -19,11 +19,11 @@ export const batteryManagerInitialState: BatteryManagerState = {
         chargeLevelPerSecond: Infinity,
         dischargeLevelPerSecond: Infinity
     }
-}
+};
 
 export const batteryManagerReducer: Reducer<BatteryManagerState, BatteryManagerAction> = (state, action) => {
-    const { type, key, payload } = action
-    const startTime = new Date()
+    const { type, key, payload } = action;
+    const startTime = new Date();
 
     switch (type) {
         case ACTION_BATTERY_MANAGER_SET:
@@ -36,7 +36,7 @@ export const batteryManagerReducer: Reducer<BatteryManagerState, BatteryManagerA
                 onchargingtimechange,
                 ondischargingtimechange,
                 onlevelchange
-            } = payload
+            } = payload;
             return {
                 ...state,
                 charging,
@@ -47,27 +47,27 @@ export const batteryManagerReducer: Reducer<BatteryManagerState, BatteryManagerA
                 onchargingtimechange,
                 ondischargingtimechange,
                 onlevelchange,
-            }
+            };
 
         case ACTION_BATTERY_MANAGER_SET_KEY:
             return {
                 ...state,
                 [key as keyof BatteryManagerState]: payload
-            }
+            };
 
         case ACTION_BATTERY_MANAGER_SET_ANALYTICS:
-            const endTime = new Date()
+            const endTime = new Date();
             //@ts-ignore
-            const timeDiff = (endTime - startTime) / 1000
+            const timeDiff = (endTime - startTime) / 1000;
 
             return {
                 ...state,
                 analytics: {
                     ...state.analytics, chargeLevelPerSecond: timeDiff
                 }
-            }
+            };
 
         default:
-            return state
+            return state;
     }
-}
+};

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import servicerWorkerConfig from './serviceWorkerConfig'
+import servicerWorkerConfig from './serviceWorkerConfig';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(

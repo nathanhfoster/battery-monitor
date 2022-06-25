@@ -1,7 +1,7 @@
 
 export type ServicerWorkerConfig = {
-    onSuccess?: (registration: ServiceWorkerRegistration) => void;
-    onUpdate?: (registration: ServiceWorkerRegistration) => void;
-  };
+  onSuccess?: (registration: ServiceWorkerRegistration) => void;
+  onUpdate?: (registration: ServiceWorkerRegistration) => void;
+};
 
-  export type ServiceWorkerConfiguration = () => ServicerWorkerConfig
+export type ServiceWorkerConfiguration = () => ServicerWorkerConfig;

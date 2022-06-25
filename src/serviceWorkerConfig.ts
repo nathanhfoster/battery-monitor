@@ -48,7 +48,7 @@ const config: ServiceWorkerConfiguration = () => ({
     if (waitingServiceWorker) {
       waitingServiceWorker.addEventListener('statechange', (event) => {
         const serviceWorker = event?.target as ServiceWorker;
-        
+
         if (serviceWorker.state === 'activated') {
 
           const handleReloadWindow = () => {

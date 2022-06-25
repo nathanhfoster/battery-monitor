@@ -1,4 +1,4 @@
-import type { ServicerWorkerConfig } from './types'
+import type { ServicerWorkerConfig } from './types';
 const { NODE_ENV } = process.env;
 // This optional code is used to register a service worker.
 // register() is not called by default.
@@ -53,7 +53,7 @@ export const register = (config?: ServicerWorkerConfig) => {
       }
     });
   }
-}
+};
 
 const registerValidSW = (swUrl: string, config?: ServicerWorkerConfig) => {
   navigator.serviceWorker
@@ -97,7 +97,7 @@ const registerValidSW = (swUrl: string, config?: ServicerWorkerConfig) => {
     .catch((error) => {
       console.error('Error during service worker registration:', error);
     });
-}
+};
 
 const checkValidServiceWorker = (swUrl: string, config?: ServicerWorkerConfig) => {
   // Check if the service worker can be found. If it can't reload the page.
@@ -125,7 +125,7 @@ const checkValidServiceWorker = (swUrl: string, config?: ServicerWorkerConfig) =
     .catch(() => {
       console.log('No internet connection found. App is running in offline mode.');
     });
-}
+};
 
 export const unregister = () => {
   if ('serviceWorker' in navigator) {
@@ -137,4 +137,4 @@ export const unregister = () => {
         console.error(error.message);
       });
   }
-}
+};

@@ -16,7 +16,7 @@ export const secondsToHms = (d: number) => {
     const sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
 
     return hDisplay + mDisplay + sDisplay;
-}
+};
 
 export const getDerivedStateFromProps = (state: Record<string, any>, props: ComponentsProps) => ({
     ...(state && {
@@ -28,7 +28,7 @@ export const getDerivedStateFromProps = (state: Record<string, any>, props: Comp
 });
 
 export const toFixedNumber = (number: number, digits: number, base = 10) => {
-    const pow = Math.pow(base, digits)
-    const fixedNumber = Math.round(number * pow) / pow
-    return fixedNumber
-}
+    const pow = Math.pow(base, digits);
+    const fixedNumber = Math.round(number * pow) / pow;
+    return fixedNumber;
+};
