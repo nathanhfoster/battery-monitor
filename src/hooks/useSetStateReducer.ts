@@ -1,22 +1,22 @@
 
-import { useRef, useReducer, useCallback, useEffect, MutableRefObject, Dispatch, ReducerState, Reducer, ReducerStateWithoutAction } from 'react';
+import { useRef, useReducer, useCallback, MutableRefObject, ReducerState, Reducer, } from 'react';
 import { setObjectStateReducer } from './reducers';
+import useEffectAfterMount from './useEffectAfterMount';
 
 const defaultCallback = () => { };
 
-export interface useSetStateReducerProps { reducer?: Reducer<any, any>, initializerArg: ReducerState<any>, initializer?: (arg: ReducerState<any>) => ReducerState<any> }
+export interface useSetStateReducerProps { reducer?: Reducer<any, any>, initializerArg: ReducerState<any>, initializer?: (arg: ReducerState<any>) => ReducerState<any>; }
 
 export type AugmentedDispatch = (updater: Record<string, any>, callback?: () => any) => any;
-
-export type useSetStateReducer = (args: useSetStateReducerProps) => [Record<string, any>, AugmentedDispatch]
 
 /**
  * Mimics React.Component this.state and this.setState
  */
-const useSetStateReducer: useSetStateReducer = ({ reducer = setObjectStateReducer, initializerArg, initializer = (initializerArg) => initializerArg }) => {
+const useSetStateReducer = ({ reducer = setObjectStateReducer, initializerArg, initializer = (initializerArg) => initializerArg }: useSetStateReducerProps) => {
     // Temporarily holds the reference to a callback
     const callbackRef: MutableRefObject<(arg: ReducerState<any>) => ReducerState<any>> = useRef(defaultCallback);
-    const [state, dispatch]: [Record<string, any>, Dispatch<any>] = useReducer(
+
+    const [state, dispatch] = useReducer(
         reducer,
         initializerArg,
         initializer
@@ -31,7 +31,7 @@ const useSetStateReducer: useSetStateReducer = ({ reducer = setObjectStateReduce
     }, []);
 
     // Synchronously call the callback after every state change
-    useEffect(() => {
+    useEffectAfterMount(() => {
         callbackRef.current(state);
         callbackRef.current = defaultCallback;
     }, [state]);
